@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -9,7 +10,16 @@ namespace Covid_Case_Management_System
 {
     public partial class MainPage : System.Web.UI.Page
     {
+        SqlConnection con;
+        SqlCommand cmd;
+
         protected void Page_Load(object sender, EventArgs e)
+        {
+            con = new SqlConnection("Data Source=(localdb)/MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework");
+            cmd = new SqlCommand();
+        }
+
+        protected void gvPhoneBook_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
