@@ -10,17 +10,30 @@ namespace Covid_Case_Management_System
 {
     public partial class MainPage : System.Web.UI.Page
     {
-        SqlConnection con;
-        SqlCommand cmd;
-
+     //   SqlConnection con;
+       // SqlCommand cmd;
+        CovidCase newCovidCase;
         protected void Page_Load(object sender, EventArgs e)
         {
-            con = new SqlConnection("Data Source=(localdb)/MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework");
-            cmd = new SqlCommand();
+           // con = new SqlConnection("Data Source=(localdb)/MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework");
+         //   cmd = new SqlCommand();
         }
 
-        protected void gvPhoneBook_SelectedIndexChanged(object sender, EventArgs e)
+
+        protected void submitBtn_Click(object sender, EventArgs e)
         {
+            string FirstName = firstNameBox.Text.ToString();
+            string LastName = lastNameBox.Text.ToString();
+            string PhoneNumber = phoneNumberBox.Text.ToString();
+            string Gender = genderBox.Text.ToString();
+            string Age = ageBox.Text.ToString();
+            string Address = addressBox.Text.ToString();
+            string Deseases = deseasesBox.Text.ToString();
+            string Date = dateBox.Text.ToString();
+            DataEntry myDataEnry = new DataEntry();
+            newCovidCase = new CovidCase(FirstName, LastName, PhoneNumber, Gender, Age, Address, Deseases, Date);
+            myDataEnry.enteringData(newCovidCase);
+            GridView1.DataBind();
 
         }
     }

@@ -5,18 +5,63 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
-    <style type="text/css">
-        .auto-style1 {
-            height: 33px;
-        }
-    </style>
-</head>
+    </head>
 <body>
     <form id="form1" runat="server">
         <div>
+            <asp:Label ID="enteracaselbl" runat="server" Font-Size="20pt" Text="Enter a covid case:"></asp:Label>
+            <br />
+            <asp:Label ID="firstNamelbl" runat="server" Text="First Name:"></asp:Label>
+            <br />
+            <asp:TextBox ID="firstNameBox" runat="server"></asp:TextBox>
+            <br />
+            <br />
+            <asp:Label ID="lastNamelbl" runat="server" Text="Last Name:"></asp:Label>
+            <br />
+            <asp:TextBox ID="lastNameBox" required="true" runat="server"></asp:TextBox>
+            <br />
+            <br />
+            <asp:Label ID="phoneNumberlbl" runat="server" Text="Phone Number:"></asp:Label>
+            <br />
+            <asp:TextBox ID="phoneNumberBox" runat="server"></asp:TextBox>
+            <br />
+            <br />
+            <asp:Label ID="genderLbl" runat="server" Text="Gender:"></asp:Label>
+            <br />
+            <asp:TextBox ID="genderBox" runat="server"></asp:TextBox>
+            <br />
+            <br />
+            <asp:Label ID="agelbl" runat="server" Text="Age:"></asp:Label>
+            <br />
+            <asp:TextBox ID="ageBox" runat="server"></asp:TextBox>
+            <br />
+            <br />
+            <asp:Label ID="addresslbl" runat="server" Text="Address:"></asp:Label>
+            <br />
+            <asp:TextBox ID="addressBox" runat="server"></asp:TextBox>
+            <br />
+            <br />
+            <asp:Label ID="deseaseslbl" runat="server" Text="Underlying Deseases:"></asp:Label>
+            <br />
+            <asp:TextBox ID="deseasesBox" runat="server"></asp:TextBox>
+            <br />
+            <br />
+            <asp:Label ID="datelbl" runat="server" Text="Date:"></asp:Label>
+            <br />
+            <asp:TextBox ID="dateBox" runat="server"></asp:TextBox>
+            <br />
         </div>
+        <br />
+
+
+        <asp:Button ID="submitBtn" runat="server" OnClick="submitBtn_Click" Text="Submit" />
+
+
+        <br />
+        <br />
         <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" DataKeyNames="Id" DataSourceID="SqlDataSource1" Width="531px">
             <Columns>
+                <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" />
                 <asp:BoundField DataField="Id" HeaderText="Id" InsertVisible="False" ReadOnly="True" SortExpression="Id" />
                 <asp:BoundField DataField="FirstName" HeaderText="FirstName" SortExpression="FirstName" />
                 <asp:BoundField DataField="LastName" HeaderText="LastName" SortExpression="LastName" />
@@ -37,6 +82,9 @@
             <SortedDescendingCellStyle BackColor="#CAC9C9" />
             <SortedDescendingHeaderStyle BackColor="#00547E" />
         </asp:GridView>
+        <br />
+        <br />
+       
         <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConflictDetection="CompareAllValues" ConnectionString="<%$ ConnectionStrings:Covid19-CaseDBConnectionString %>" DeleteCommand="DELETE FROM [newCovidCases] WHERE [Id] = @original_Id AND [FirstName] = @original_FirstName AND [LastName] = @original_LastName AND [PhoneNumber] = @original_PhoneNumber AND [Gender] = @original_Gender AND [Age] = @original_Age AND [Address] = @original_Address AND (([Deseases] = @original_Deseases) OR ([Deseases] IS NULL AND @original_Deseases IS NULL)) AND [Date] = @original_Date" InsertCommand="INSERT INTO [newCovidCases] ([FirstName], [LastName], [PhoneNumber], [Gender], [Age], [Address], [Deseases], [Date]) VALUES (@FirstName, @LastName, @PhoneNumber, @Gender, @Age, @Address, @Deseases, @Date)" OldValuesParameterFormatString="original_{0}" SelectCommand="SELECT * FROM [newCovidCases]" UpdateCommand="UPDATE [newCovidCases] SET [FirstName] = @FirstName, [LastName] = @LastName, [PhoneNumber] = @PhoneNumber, [Gender] = @Gender, [Age] = @Age, [Address] = @Address, [Deseases] = @Deseases, [Date] = @Date WHERE [Id] = @original_Id AND [FirstName] = @original_FirstName AND [LastName] = @original_LastName AND [PhoneNumber] = @original_PhoneNumber AND [Gender] = @original_Gender AND [Age] = @original_Age AND [Address] = @original_Address AND (([Deseases] = @original_Deseases) OR ([Deseases] IS NULL AND @original_Deseases IS NULL)) AND [Date] = @original_Date">
             <DeleteParameters>
                 <asp:Parameter Name="original_Id" Type="Int32" />
@@ -81,11 +129,6 @@
         </asp:SqlDataSource>
 
 
-        <br />
-        <br />
-        <br />
-        <br />
-       
     </form>
 </body>
 </html>
