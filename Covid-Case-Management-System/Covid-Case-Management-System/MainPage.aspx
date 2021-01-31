@@ -55,26 +55,14 @@
 
 
         <asp:Button ID="submitBtn" runat="server" OnClick="submitBtn_Click" Text="Submit" />
-
+         <hr />
 
         <br />
         <br />
         <asp:TextBox ID="txtSearch" runat="server"></asp:TextBox>
-        <asp:Button Text="Search" runat="server" OnClick="Search"/>
+        <asp:Button ID="searchBtn" runat="server" OnClick="searchBtn_Click" Text="Search" />
         <hr />
-        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" DataKeyNames="Id" DataSourceID="SqlDataSource1" Width="531px" AllowPaging="True" OnPageIndexChanging="OnPaging">
-            <Columns>
-                <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" ShowSelectButton="True" />
-                <asp:BoundField DataField="Id" HeaderText="Id" InsertVisible="False" ReadOnly="True" SortExpression="Id" />
-                <asp:BoundField DataField="FirstName" HeaderText="FirstName" SortExpression="FirstName" />
-                <asp:BoundField DataField="LastName" HeaderText="LastName" SortExpression="LastName" />
-                <asp:BoundField DataField="PhoneNumber" HeaderText="PhoneNumber" SortExpression="PhoneNumber" />
-                <asp:BoundField DataField="Gender" HeaderText="Gender" SortExpression="Gender" />
-                <asp:BoundField DataField="Age" HeaderText="Age" SortExpression="Age" />
-                <asp:BoundField DataField="Address" HeaderText="Address" SortExpression="Address" />
-                <asp:BoundField DataField="Deseases" HeaderText="Deseases" SortExpression="Deseases" />
-                <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date" />
-            </Columns>
+        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" Width="531px" AllowPaging="True" OnPageIndexChanging="OnPaging">
             <FooterStyle BackColor="White" ForeColor="#000066" />
             <HeaderStyle BackColor="#006699" Font-Bold="True" ForeColor="White" />
             <PagerStyle BackColor="White" ForeColor="#000066" HorizontalAlign="Left" />
@@ -84,8 +72,33 @@
             <SortedAscendingHeaderStyle BackColor="#007DBB" />
             <SortedDescendingCellStyle BackColor="#CAC9C9" />
             <SortedDescendingHeaderStyle BackColor="#00547E" />
+               <Columns>
+             <asp:BoundField DataField="Id" HeaderText="Id" InsertVisible="False" ReadOnly="True" SortExpression="Id" />
+                <asp:BoundField DataField="FirstName" HeaderText="FirstName" SortExpression="FirstName" />
+                <asp:BoundField DataField="LastName" HeaderText="LastName" SortExpression="LastName" />
+                <asp:BoundField DataField="PhoneNumber" HeaderText="PhoneNumber" SortExpression="PhoneNumber" />
+                <asp:BoundField DataField="Gender" HeaderText="Gender" SortExpression="Gender" />
+                <asp:BoundField DataField="Age" HeaderText="Age" SortExpression="Age" />
+                <asp:BoundField DataField="Address" HeaderText="Address" SortExpression="Address" />
+                <asp:BoundField DataField="Deseases" HeaderText="Deseases" SortExpression="Deseases" />
+                <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date" />
+       </Columns>
         </asp:GridView>
         <br />
+        <asp:GridView ID="gvCustomers" runat="server" AutoGenerateColumns="false" AllowPaging="true"
+          OnPageIndexChanging="OnPaging">
+         <Columns>
+             <asp:BoundField DataField="Id" HeaderText="Id" InsertVisible="False" ReadOnly="True" SortExpression="Id" />
+                <asp:BoundField DataField="FirstName" HeaderText="FirstName" SortExpression="FirstName" />
+                <asp:BoundField DataField="LastName" HeaderText="LastName" SortExpression="LastName" />
+                <asp:BoundField DataField="PhoneNumber" HeaderText="PhoneNumber" SortExpression="PhoneNumber" />
+                <asp:BoundField DataField="Gender" HeaderText="Gender" SortExpression="Gender" />
+                <asp:BoundField DataField="Age" HeaderText="Age" SortExpression="Age" />
+                <asp:BoundField DataField="Address" HeaderText="Address" SortExpression="Address" />
+                <asp:BoundField DataField="Deseases" HeaderText="Deseases" SortExpression="Deseases" />
+                <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date" />
+       </Columns>
+        </asp:GridView>
         <br />
        
         <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConflictDetection="CompareAllValues" ConnectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework" DeleteCommand="DELETE FROM [newCovidCases] WHERE [Id] = @original_Id AND [FirstName] = @original_FirstName AND [LastName] = @original_LastName AND [PhoneNumber] = @original_PhoneNumber AND [Gender] = @original_Gender AND [Age] = @original_Age AND [Address] = @original_Address AND (([Deseases] = @original_Deseases) OR ([Deseases] IS NULL AND @original_Deseases IS NULL)) AND [Date] = @original_Date" InsertCommand="INSERT INTO [newCovidCases] ([FirstName], [LastName], [PhoneNumber], [Gender], [Age], [Address], [Deseases], [Date]) VALUES (@FirstName, @LastName, @PhoneNumber, @Gender, @Age, @Address, @Deseases, @Date)" OldValuesParameterFormatString="original_{0}" SelectCommand="SELECT * FROM [newCovidCases]" UpdateCommand="UPDATE [newCovidCases] SET [FirstName] = @FirstName, [LastName] = @LastName, [PhoneNumber] = @PhoneNumber, [Gender] = @Gender, [Age] = @Age, [Address] = @Address, [Deseases] = @Deseases, [Date] = @Date WHERE [Id] = @original_Id AND [FirstName] = @original_FirstName AND [LastName] = @original_LastName AND [PhoneNumber] = @original_PhoneNumber AND [Gender] = @original_Gender AND [Age] = @original_Age AND [Address] = @original_Address AND (([Deseases] = @original_Deseases) OR ([Deseases] IS NULL AND @original_Deseases IS NULL)) AND [Date] = @original_Date">

@@ -12,54 +12,23 @@ namespace Covid_Case_Management_System
 {
     public partial class MainPage : System.Web.UI.Page
     {
-       // SqlConnection constr;
-       // SqlCommand cmd;
+
         CovidCase newCovidCase;
+        DataHandler mydatahandler;
         protected void Page_Load(object sender, EventArgs e)
         {
-           // constr = new SqlConnection();
-          //  cmd = new SqlCommand();
-            if (!this.IsPostBack)
-            {
-                this.SearchCustomers();
-            }
+            mydatahandler = new DataHandler();
+            mydatahandler.showingData(GridView1);
         }
 
 
-        private void SearchCustomers()
-        {
-          //  string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
-            using (SqlConnection con = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework"))
-            {
-                using (SqlCommand cmd = new SqlCommand())
-                {
-                    string sql = "SELECT Id FROM newCovidCases";
-                    if (!string.IsNullOrEmpty(txtSearch.Text.Trim()))
-                    {
-                        sql += " WHERE Id LIKE @Id + '%'";
-                        cmd.Parameters.AddWithValue("@Id", txtSearch.Text.Trim());
-                    }
-                    cmd.CommandText = sql;
-                    cmd.Connection = con;
-                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
-                    {
-                        DataTable dt = new DataTable();
-                        sda.Fill(dt);
-                     //   GridView1.DataSource = dt;
-                        GridView1.DataBind();
-                    }
-                }
-            }
-        }
-        protected void Search(object sender, EventArgs e)
-        {
-            this.SearchCustomers();
-        }
+
 
         protected void OnPaging(object sender, GridViewPageEventArgs e)
         {
             GridView1.PageIndex = e.NewPageIndex;
-            this.SearchCustomers();
+            mydatahandler = new DataHandler();
+            mydatahandler.searchingData(GridView1, txtSearch);
         }
         protected void submitBtn_Click(object sender, EventArgs e)
         {
@@ -71,18 +40,23 @@ namespace Covid_Case_Management_System
             string Address = addressBox.Text.ToString();
             string Deseases = deseasesBox.Text.ToString();
             string Date = dateBox.Text.ToString();
-            DataEntry myDataEnry = new DataEntry();
             newCovidCase = new CovidCase(FirstName, LastName, PhoneNumber, Gender, Age, Address, Deseases, Date);
-            myDataEnry.enteringData(newCovidCase);
-            GridView1.DataBind();
+            mydatahandler = new DataHandler();
+            mydatahandler.insertingData(newCovidCase);
 
         }
 
-
+        protected void searchBtn_Click(object sender, EventArgs e)
+        {
+            mydatahandler = new DataHandler();
+            mydatahandler.searchingData(GridView1, txtSearch);
+        }
     }
-    public class DataEntry
+
+
+    public class DataHandler
     {
-        public void enteringData(CovidCase newCovidCase)
+        public void insertingData(CovidCase newCovidCase)
         {
             Model1Container query = new Model1Container();
             newCovidCase ncc = new newCovidCase();
@@ -98,10 +72,44 @@ namespace Covid_Case_Management_System
             query.SaveChanges();
         }
 
-        public void showingData()
+        public void showingData(GridView aGridView)
         {
-
+            SqlConnection mysqlconnection = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework");
+            SqlCommand cmd = new SqlCommand();
+            mysqlconnection.Open();
+            string sql = "SELECT Id, FirstName, LastName, PhoneNumber, Gender, Age, Address, Deseases, Date FROM newCovidCases";
+            cmd.CommandText = sql;
+            cmd.Connection = mysqlconnection;
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            aGridView.DataSource = dt;
+            aGridView.DataBind();
+            mysqlconnection.Close();
         }
+
+        public void searchingData(GridView aGridView,TextBox searchkey)
+        {
+            SqlConnection mysqlconnection = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework");
+            SqlCommand cmd = new SqlCommand();
+            mysqlconnection.Open();
+            string sql = "SELECT Id, FirstName, LastName, PhoneNumber, Gender, Age, Address, Deseases, Date FROM newCovidCases";
+            if (!string.IsNullOrEmpty(searchkey.Text.Trim()))
+            {
+                sql += " WHERE FirstName LIKE @FirstName + '%'";
+                cmd.Parameters.AddWithValue("@FirstName", searchkey.Text.Trim());
+            }
+            cmd.CommandText = sql;
+            cmd.Connection = mysqlconnection;
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            aGridView.DataSource = dt;
+            aGridView.DataBind();
+            mysqlconnection.Close();
+        }
+
+        
     }
 
     public class CovidCase
@@ -124,11 +132,6 @@ namespace Covid_Case_Management_System
             Address = address;
             Deseases = deseases;
             Date = data;
-        }
-
-        public CovidCase()
-        {
-
         }
     }
 }
