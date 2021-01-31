@@ -18,7 +18,7 @@
             <br />
             <asp:Label ID="lastNamelbl" runat="server" Text="Last Name:"></asp:Label>
             <br />
-            <asp:TextBox ID="lastNameBox" required="true" runat="server"></asp:TextBox>
+            <asp:TextBox ID="lastNameBox" runat="server"></asp:TextBox>
             <br />
             <br />
             <asp:Label ID="phoneNumberlbl" runat="server" Text="Phone Number:"></asp:Label>
@@ -59,9 +59,12 @@
 
         <br />
         <br />
-        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" DataKeyNames="Id" DataSourceID="SqlDataSource1" Width="531px">
+        <asp:TextBox ID="txtSearch" runat="server"></asp:TextBox>
+        <asp:Button Text="Search" runat="server" OnClick="Search"/>
+        <hr />
+        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" DataKeyNames="Id" DataSourceID="SqlDataSource1" Width="531px" AllowPaging="True" OnPageIndexChanging="OnPaging">
             <Columns>
-                <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" />
+                <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" ShowSelectButton="True" />
                 <asp:BoundField DataField="Id" HeaderText="Id" InsertVisible="False" ReadOnly="True" SortExpression="Id" />
                 <asp:BoundField DataField="FirstName" HeaderText="FirstName" SortExpression="FirstName" />
                 <asp:BoundField DataField="LastName" HeaderText="LastName" SortExpression="LastName" />
@@ -85,7 +88,7 @@
         <br />
         <br />
        
-        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConflictDetection="CompareAllValues" ConnectionString="<%$ ConnectionStrings:Covid19-CaseDBConnectionString %>" DeleteCommand="DELETE FROM [newCovidCases] WHERE [Id] = @original_Id AND [FirstName] = @original_FirstName AND [LastName] = @original_LastName AND [PhoneNumber] = @original_PhoneNumber AND [Gender] = @original_Gender AND [Age] = @original_Age AND [Address] = @original_Address AND (([Deseases] = @original_Deseases) OR ([Deseases] IS NULL AND @original_Deseases IS NULL)) AND [Date] = @original_Date" InsertCommand="INSERT INTO [newCovidCases] ([FirstName], [LastName], [PhoneNumber], [Gender], [Age], [Address], [Deseases], [Date]) VALUES (@FirstName, @LastName, @PhoneNumber, @Gender, @Age, @Address, @Deseases, @Date)" OldValuesParameterFormatString="original_{0}" SelectCommand="SELECT * FROM [newCovidCases]" UpdateCommand="UPDATE [newCovidCases] SET [FirstName] = @FirstName, [LastName] = @LastName, [PhoneNumber] = @PhoneNumber, [Gender] = @Gender, [Age] = @Age, [Address] = @Address, [Deseases] = @Deseases, [Date] = @Date WHERE [Id] = @original_Id AND [FirstName] = @original_FirstName AND [LastName] = @original_LastName AND [PhoneNumber] = @original_PhoneNumber AND [Gender] = @original_Gender AND [Age] = @original_Age AND [Address] = @original_Address AND (([Deseases] = @original_Deseases) OR ([Deseases] IS NULL AND @original_Deseases IS NULL)) AND [Date] = @original_Date">
+        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConflictDetection="CompareAllValues" ConnectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework" DeleteCommand="DELETE FROM [newCovidCases] WHERE [Id] = @original_Id AND [FirstName] = @original_FirstName AND [LastName] = @original_LastName AND [PhoneNumber] = @original_PhoneNumber AND [Gender] = @original_Gender AND [Age] = @original_Age AND [Address] = @original_Address AND (([Deseases] = @original_Deseases) OR ([Deseases] IS NULL AND @original_Deseases IS NULL)) AND [Date] = @original_Date" InsertCommand="INSERT INTO [newCovidCases] ([FirstName], [LastName], [PhoneNumber], [Gender], [Age], [Address], [Deseases], [Date]) VALUES (@FirstName, @LastName, @PhoneNumber, @Gender, @Age, @Address, @Deseases, @Date)" OldValuesParameterFormatString="original_{0}" SelectCommand="SELECT * FROM [newCovidCases]" UpdateCommand="UPDATE [newCovidCases] SET [FirstName] = @FirstName, [LastName] = @LastName, [PhoneNumber] = @PhoneNumber, [Gender] = @Gender, [Age] = @Age, [Address] = @Address, [Deseases] = @Deseases, [Date] = @Date WHERE [Id] = @original_Id AND [FirstName] = @original_FirstName AND [LastName] = @original_LastName AND [PhoneNumber] = @original_PhoneNumber AND [Gender] = @original_Gender AND [Age] = @original_Age AND [Address] = @original_Address AND (([Deseases] = @original_Deseases) OR ([Deseases] IS NULL AND @original_Deseases IS NULL)) AND [Date] = @original_Date">
             <DeleteParameters>
                 <asp:Parameter Name="original_Id" Type="Int32" />
                 <asp:Parameter Name="original_FirstName" Type="String" />

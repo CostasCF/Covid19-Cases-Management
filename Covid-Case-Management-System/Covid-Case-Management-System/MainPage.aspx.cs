@@ -1,25 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
 
 namespace Covid_Case_Management_System
 {
     public partial class MainPage : System.Web.UI.Page
     {
-     //   SqlConnection con;
+       // SqlConnection constr;
        // SqlCommand cmd;
         CovidCase newCovidCase;
         protected void Page_Load(object sender, EventArgs e)
         {
-           // con = new SqlConnection("Data Source=(localdb)/MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework");
-         //   cmd = new SqlCommand();
+           // constr = new SqlConnection();
+          //  cmd = new SqlCommand();
+            if (!this.IsPostBack)
+            {
+                this.SearchCustomers();
+            }
         }
 
 
+        private void SearchCustomers()
+        {
+          //  string constr = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+            using (SqlConnection con = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework"))
+            {
+                using (SqlCommand cmd = new SqlCommand())
+                {
+                    string sql = "SELECT Id FROM newCovidCases";
+                    if (!string.IsNullOrEmpty(txtSearch.Text.Trim()))
+                    {
+                        sql += " WHERE Id LIKE @Id + '%'";
+                        cmd.Parameters.AddWithValue("@Id", txtSearch.Text.Trim());
+                    }
+                    cmd.CommandText = sql;
+                    cmd.Connection = con;
+                    using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+                    {
+                        DataTable dt = new DataTable();
+                        sda.Fill(dt);
+                     //   GridView1.DataSource = dt;
+                        GridView1.DataBind();
+                    }
+                }
+            }
+        }
+        protected void Search(object sender, EventArgs e)
+        {
+            this.SearchCustomers();
+        }
+
+        protected void OnPaging(object sender, GridViewPageEventArgs e)
+        {
+            GridView1.PageIndex = e.NewPageIndex;
+            this.SearchCustomers();
+        }
         protected void submitBtn_Click(object sender, EventArgs e)
         {
             string FirstName = firstNameBox.Text.ToString();
@@ -36,6 +77,8 @@ namespace Covid_Case_Management_System
             GridView1.DataBind();
 
         }
+
+
     }
     public class DataEntry
     {
