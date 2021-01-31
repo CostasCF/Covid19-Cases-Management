@@ -59,10 +59,13 @@
 
         <br />
         <br />
+         <!-- search section -->
         <asp:TextBox ID="txtSearch" runat="server"></asp:TextBox>
         <asp:Button ID="searchBtn" runat="server" OnClick="searchBtn_Click" Text="Search" />
         <hr />
-        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" Width="531px" AllowPaging="True" OnPageIndexChanging="OnPaging">
+        <!-- gridview -->
+        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" Width="649px"
+           DataKeyNames="Id" AllowPaging="True" OnPageIndexChanging="OnPaging" OnRowEditing="OnRowEditing" OnRowCancelingEdit="OnRowCancelingEdit"  OnRowUpdating="OnRowUpdating" OnRowDeleting="OnRowDeleting" EmptyDataText="No records has been added." > 
             <FooterStyle BackColor="White" ForeColor="#000066" />
             <HeaderStyle BackColor="#006699" Font-Bold="True" ForeColor="White" />
             <PagerStyle BackColor="White" ForeColor="#000066" HorizontalAlign="Left" />
@@ -73,78 +76,85 @@
             <SortedDescendingCellStyle BackColor="#CAC9C9" />
             <SortedDescendingHeaderStyle BackColor="#00547E" />
                <Columns>
-             <asp:BoundField DataField="Id" HeaderText="Id" InsertVisible="False" ReadOnly="True" SortExpression="Id" />
-                <asp:BoundField DataField="FirstName" HeaderText="FirstName" SortExpression="FirstName" />
-                <asp:BoundField DataField="LastName" HeaderText="LastName" SortExpression="LastName" />
-                <asp:BoundField DataField="PhoneNumber" HeaderText="PhoneNumber" SortExpression="PhoneNumber" />
-                <asp:BoundField DataField="Gender" HeaderText="Gender" SortExpression="Gender" />
-                <asp:BoundField DataField="Age" HeaderText="Age" SortExpression="Age" />
-                <asp:BoundField DataField="Address" HeaderText="Address" SortExpression="Address" />
-                <asp:BoundField DataField="Deseases" HeaderText="Deseases" SortExpression="Deseases" />
-                <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date" />
-       </Columns>
-        </asp:GridView>
-        <br />
-        <asp:GridView ID="gvCustomers" runat="server" AutoGenerateColumns="false" AllowPaging="true"
-          OnPageIndexChanging="OnPaging">
-         <Columns>
-             <asp:BoundField DataField="Id" HeaderText="Id" InsertVisible="False" ReadOnly="True" SortExpression="Id" />
-                <asp:BoundField DataField="FirstName" HeaderText="FirstName" SortExpression="FirstName" />
-                <asp:BoundField DataField="LastName" HeaderText="LastName" SortExpression="LastName" />
-                <asp:BoundField DataField="PhoneNumber" HeaderText="PhoneNumber" SortExpression="PhoneNumber" />
-                <asp:BoundField DataField="Gender" HeaderText="Gender" SortExpression="Gender" />
-                <asp:BoundField DataField="Age" HeaderText="Age" SortExpression="Age" />
-                <asp:BoundField DataField="Address" HeaderText="Address" SortExpression="Address" />
-                <asp:BoundField DataField="Deseases" HeaderText="Deseases" SortExpression="Deseases" />
-                <asp:BoundField DataField="Date" HeaderText="Date" SortExpression="Date" />
-       </Columns>
-        </asp:GridView>
-        <br />
-       
-        <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConflictDetection="CompareAllValues" ConnectionString="Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework" DeleteCommand="DELETE FROM [newCovidCases] WHERE [Id] = @original_Id AND [FirstName] = @original_FirstName AND [LastName] = @original_LastName AND [PhoneNumber] = @original_PhoneNumber AND [Gender] = @original_Gender AND [Age] = @original_Age AND [Address] = @original_Address AND (([Deseases] = @original_Deseases) OR ([Deseases] IS NULL AND @original_Deseases IS NULL)) AND [Date] = @original_Date" InsertCommand="INSERT INTO [newCovidCases] ([FirstName], [LastName], [PhoneNumber], [Gender], [Age], [Address], [Deseases], [Date]) VALUES (@FirstName, @LastName, @PhoneNumber, @Gender, @Age, @Address, @Deseases, @Date)" OldValuesParameterFormatString="original_{0}" SelectCommand="SELECT * FROM [newCovidCases]" UpdateCommand="UPDATE [newCovidCases] SET [FirstName] = @FirstName, [LastName] = @LastName, [PhoneNumber] = @PhoneNumber, [Gender] = @Gender, [Age] = @Age, [Address] = @Address, [Deseases] = @Deseases, [Date] = @Date WHERE [Id] = @original_Id AND [FirstName] = @original_FirstName AND [LastName] = @original_LastName AND [PhoneNumber] = @original_PhoneNumber AND [Gender] = @original_Gender AND [Age] = @original_Age AND [Address] = @original_Address AND (([Deseases] = @original_Deseases) OR ([Deseases] IS NULL AND @original_Deseases IS NULL)) AND [Date] = @original_Date">
-            <DeleteParameters>
-                <asp:Parameter Name="original_Id" Type="Int32" />
-                <asp:Parameter Name="original_FirstName" Type="String" />
-                <asp:Parameter Name="original_LastName" Type="String" />
-                <asp:Parameter Name="original_PhoneNumber" Type="String" />
-                <asp:Parameter Name="original_Gender" Type="String" />
-                <asp:Parameter Name="original_Age" Type="String" />
-                <asp:Parameter Name="original_Address" Type="String" />
-                <asp:Parameter Name="original_Deseases" Type="String" />
-                <asp:Parameter Name="original_Date" Type="String" />
-            </DeleteParameters>
-            <InsertParameters>
-                <asp:Parameter Name="FirstName" Type="String" />
-                <asp:Parameter Name="LastName" Type="String" />
-                <asp:Parameter Name="PhoneNumber" Type="String" />
-                <asp:Parameter Name="Gender" Type="String" />
-                <asp:Parameter Name="Age" Type="String" />
-                <asp:Parameter Name="Address" Type="String" />
-                <asp:Parameter Name="Deseases" Type="String" />
-                <asp:Parameter Name="Date" Type="String" />
-            </InsertParameters>
-            <UpdateParameters>
-                <asp:Parameter Name="FirstName" Type="String" />
-                <asp:Parameter Name="LastName" Type="String" />
-                <asp:Parameter Name="PhoneNumber" Type="String" />
-                <asp:Parameter Name="Gender" Type="String" />
-                <asp:Parameter Name="Age" Type="String" />
-                <asp:Parameter Name="Address" Type="String" />
-                <asp:Parameter Name="Deseases" Type="String" />
-                <asp:Parameter Name="Date" Type="String" />
-                <asp:Parameter Name="original_Id" Type="Int32" />
-                <asp:Parameter Name="original_FirstName" Type="String" />
-                <asp:Parameter Name="original_LastName" Type="String" />
-                <asp:Parameter Name="original_PhoneNumber" Type="String" />
-                <asp:Parameter Name="original_Gender" Type="String" />
-                <asp:Parameter Name="original_Age" Type="String" />
-                <asp:Parameter Name="original_Address" Type="String" />
-                <asp:Parameter Name="original_Deseases" Type="String" />
-                <asp:Parameter Name="original_Date" Type="String" />
-            </UpdateParameters>
-        </asp:SqlDataSource>
+                   <asp:TemplateField HeaderText="Id" InsertVisible="False" SortExpression="Id">
+                       <EditItemTemplate>
+                           <asp:Label ID="Id" runat="server" Text='<%# Eval("Id") %>'></asp:Label>
+                       </EditItemTemplate>
+                       <ItemTemplate>
+                           <asp:Label ID="lblId" runat="server" Text='<%# Bind("Id") %>'></asp:Label>
+                       </ItemTemplate>
+                   </asp:TemplateField>
+                   <asp:TemplateField HeaderText="FirstName" SortExpression="FirstName">
+                       <ItemTemplate>
+                           <asp:Label ID="lblFirstName" runat="server" Text='<%# Bind("FirstName") %>'></asp:Label>
+                       </ItemTemplate>
+                         <EditItemTemplate>
+                           <asp:TextBox ID="FirstName" runat="server" Text='<%# Bind("FirstName") %>'></asp:TextBox>
+                       </EditItemTemplate>
+                   </asp:TemplateField>
+                   <asp:TemplateField HeaderText="LastName" SortExpression="LastName">
+                       <EditItemTemplate>
+                           <asp:TextBox ID="LastName" runat="server" Text='<%# Bind("LastName") %>'></asp:TextBox>
+                       </EditItemTemplate>
+                       <ItemTemplate>
+                           <asp:Label ID="lblLastName" runat="server" Text='<%# Bind("LastName") %>'></asp:Label>
+                       </ItemTemplate>
+                   </asp:TemplateField>
+                   <asp:TemplateField HeaderText="PhoneNumber" SortExpression="PhoneNumber">
+                       <EditItemTemplate>
+                           <asp:TextBox ID="PhoneNumber" runat="server" Text='<%# Bind("PhoneNumber") %>'></asp:TextBox>
+                       </EditItemTemplate>
+                       <ItemTemplate>
+                           <asp:Label ID="lblPhoneNumber" runat="server" Text='<%# Bind("PhoneNumber") %>'></asp:Label>
+                       </ItemTemplate>
+                   </asp:TemplateField>
+                   <asp:TemplateField HeaderText="Gender" SortExpression="Gender">
+                       <EditItemTemplate>
+                           <asp:TextBox ID="Gender" runat="server" Text='<%# Bind("Gender") %>'></asp:TextBox>
+                       </EditItemTemplate>
+                       <ItemTemplate>
+                           <asp:Label ID="lblGender" runat="server" Text='<%# Bind("Gender") %>'></asp:Label>
+                       </ItemTemplate>
+                   </asp:TemplateField>
+                   <asp:TemplateField HeaderText="Age" SortExpression="Age">
+                       <EditItemTemplate>
+                           <asp:TextBox ID="Age" runat="server" Text='<%# Bind("Age") %>'></asp:TextBox>
+                       </EditItemTemplate>
+                       <ItemTemplate>
+                           <asp:Label ID="lblAge" runat="server" Text='<%# Bind("Age") %>'></asp:Label>
+                       </ItemTemplate>
+                   </asp:TemplateField>
+                   <asp:TemplateField HeaderText="Address" SortExpression="Address">
+                       <EditItemTemplate>
+                           <asp:TextBox ID="Address" runat="server" Text='<%# Bind("Address") %>'></asp:TextBox>
+                       </EditItemTemplate>
+                       <ItemTemplate>
+                           <asp:Label ID="lblAddress" runat="server" Text='<%# Bind("Address") %>'></asp:Label>
+                       </ItemTemplate>
+                   </asp:TemplateField>
+                   <asp:TemplateField HeaderText="Deseases" SortExpression="Deseases">
+                       <EditItemTemplate>
+                           <asp:TextBox ID="Deseases" runat="server" Text='<%# Bind("Deseases") %>'></asp:TextBox>
+                       </EditItemTemplate>
+                       <ItemTemplate>
+                           <asp:Label ID="lblDeseases" runat="server" Text='<%# Bind("Deseases") %>'></asp:Label>
+                       </ItemTemplate>
+                   </asp:TemplateField>
+                   <asp:TemplateField HeaderText="Date" SortExpression="Date">
+                       <EditItemTemplate>
+                           <asp:TextBox ID="Date" runat="server" Text='<%# Bind("Date") %>'></asp:TextBox>
+                       </EditItemTemplate>
+                       <ItemTemplate>
+                           <asp:Label ID="lblDate" runat="server" Text='<%# Bind("Date") %>'></asp:Label>
+                       </ItemTemplate>
+                   </asp:TemplateField>
+                   <asp:CommandField ButtonType="Link" ShowEditButton="true" ShowDeleteButton="true"
+                    ItemStyle-Width="100"  />
 
+       </Columns>
+       </asp:GridView>
 
+   
     </form>
 </body>
 </html>
