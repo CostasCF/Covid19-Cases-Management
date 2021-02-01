@@ -18,10 +18,9 @@ namespace Covid_Case_Management_System
         protected void Page_Load(object sender, EventArgs e)
         {
             mydatahandler = new DataHandler();
-            if (!IsPostBack) { 
-            this.BindGrid();
-        }
-            //  mydatahandler.showingData(GridView1);
+            if (!IsPostBack) {
+                mydatahandler.bindData(GridView1);
+            }
         }
 
 
@@ -45,9 +44,9 @@ namespace Covid_Case_Management_System
         protected void OnRowEditing(object sender, GridViewEditEventArgs e)
         {
             GridView1.EditIndex = e.NewEditIndex;
-            // mydatahandler = new DataHandler();
-            //   mydatahandler.showingData(GridView1);
-            this.BindGrid();
+             mydatahandler = new DataHandler();
+               mydatahandler.bindData(GridView1);
+          //  this.BindGrid();
         }
         protected void OnRowUpdating(object sender, GridViewUpdateEventArgs e)
         {
@@ -83,17 +82,18 @@ namespace Covid_Case_Management_System
                 }
             }
             GridView1.EditIndex = -1;
-                this.BindGrid();
-            
+            // this.BindGrid();
+            mydatahandler = new DataHandler();
+            mydatahandler.bindData(GridView1);
+
+
         }
 
         protected void OnRowCancelingEdit(object sender, EventArgs e)
         {
             GridView1.EditIndex = -1;
-            //  mydatahandler = new DataHandler();
-            //  mydatahandler.showingData(GridView1);
-            if (!IsPostBack)
-                this.BindGrid();
+            mydatahandler = new DataHandler();
+            mydatahandler.bindData(GridView1);
         }
         protected void OnRowDeleting(object sender, GridViewDeleteEventArgs e)
         {
@@ -110,16 +110,17 @@ namespace Covid_Case_Management_System
                     mysqlconnection.Close();
                 }
             }
-          //  mydatahandler = new DataHandler();
-          //  mydatahandler.showingData(GridView1);
-           this.BindGrid();
+           mydatahandler = new DataHandler();
+            mydatahandler.bindData(GridView1);
+           //this.BindGrid();
         }
         protected void OnPaging(object sender, GridViewPageEventArgs e)
         {
             GridView1.PageIndex = e.NewPageIndex;
-
-            this.BindGrid();
             mydatahandler = new DataHandler();
+            mydatahandler.bindData(GridView1);
+
+            // this.BindGrid();
             //mydatahandler.searchingData(GridView1, txtSearch);
         }
         protected void submitBtn_Click(object sender, EventArgs e)
@@ -135,6 +136,8 @@ namespace Covid_Case_Management_System
             newCovidCase = new CovidCase(FirstName, LastName, PhoneNumber, Gender, Age, Address, Deseases, Date);
             mydatahandler = new DataHandler();
             mydatahandler.insertData(newCovidCase);
+            mydatahandler.bindData(GridView1);
+
 
         }
 
@@ -163,12 +166,12 @@ namespace Covid_Case_Management_System
             query.SaveChanges();
         }
 
-        public void showData(GridView aGridView)
+        public void bindData(GridView aGridView)
         {
             SqlConnection mysqlconnection = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework");
             SqlCommand cmd = new SqlCommand();
             mysqlconnection.Open();
-            string sql = "SELECT Id, FirstName, LastName, PhoneNumber, Gender, Age, Address, Deseases, Date FROM newCovidCases";
+            string sql = "SELECT * FROM newCovidCases";
             cmd.CommandText = sql;
             cmd.Connection = mysqlconnection;
             SqlDataAdapter sda = new SqlDataAdapter(cmd);
