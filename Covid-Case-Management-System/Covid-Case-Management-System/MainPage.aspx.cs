@@ -86,6 +86,19 @@ namespace Covid_Case_Management_System
             SqlConnection mysqlconnection = new SqlConnection(connectionstring);
             return mysqlconnection;
         }
+
+        public DataTable executeSqlCommand(string command, SqlConnection mysqlconnection) //example: SELECT command to a database
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandText = command;
+            cmd.Connection = mysqlconnection;
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            return dt;
+
+        }
+
         public void insertData(CovidCase newCovidCase)
         {
             Model1Container query = new Model1Container();
@@ -106,13 +119,8 @@ namespace Covid_Case_Management_System
         {
             SqlConnection mysqlconnection = connectToDatabase();
             mysqlconnection.Open();
-            string sql = "SELECT * FROM newCovidCases";
-            SqlCommand cmd = new SqlCommand();
-            cmd.CommandText = sql;
-            cmd.Connection = mysqlconnection;
-            SqlDataAdapter sda = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
-            sda.Fill(dt);
+            dt = executeSqlCommand("SELECT * FROM newCovidCases", mysqlconnection);
             aGridView.DataSource = dt;
             aGridView.DataBind();
             mysqlconnection.Close();
