@@ -23,70 +23,16 @@ namespace Covid_Case_Management_System
             }
         }
 
-
-        private void BindGrid()
-        {
-            string query = "SELECT * FROM newCovidCases";
-            using (SqlConnection mysqlconnection = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework"))
-            {
-                using (SqlDataAdapter sda = new SqlDataAdapter(query, mysqlconnection))
-                {
-                    using (DataTable dt = new DataTable())
-                    {
-                        sda.Fill(dt);
-                        GridView1.DataSource = dt;
-                        GridView1.DataBind();
-
-                    }
-                }
-            }
-        }
         protected void OnRowEditing(object sender, GridViewEditEventArgs e)
         {
             GridView1.EditIndex = e.NewEditIndex;
-             mydatahandler = new DataHandler();
-               mydatahandler.bindData(GridView1);
-          //  this.BindGrid();
+            mydatahandler = new DataHandler();
+            mydatahandler.bindData(GridView1);
         }
         protected void OnRowUpdating(object sender, GridViewUpdateEventArgs e)
         {
-            
-            GridViewRow row = GridView1.Rows[e.RowIndex];
-            int Id = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Values[0]);
-            string FirstName = (row.FindControl("txtFirstName") as TextBox).Text.Trim();
-            string LastName = (row.FindControl("txtLastName") as TextBox).Text;
-            string PhoneNumber = (row.FindControl("txtPhoneNumber") as TextBox).Text;
-            string Gender = (row.FindControl("txtGender") as TextBox).Text;
-            string Age = (row.FindControl("txtAge") as TextBox).Text;
-            string Address = (row.FindControl("txtAddress") as TextBox).Text;
-            string Deseases = (row.FindControl("txtDeseases") as TextBox).Text;
-            string Date = (row.FindControl("txtDate") as TextBox).Text;
-            string query = "UPDATE newCovidCases SET FirstName=@FirstName, LastName=@LastName, PhoneNumber=@PhoneNumber, Gender=@Gender, Age=@Age, Address=@Address, Deseases=@Deseases, Date=@Date WHERE Id=@Id";
-            using (SqlConnection mysqlconnection = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework"))
-            {
-                mysqlconnection.Open();
-                using (SqlCommand cmd = new SqlCommand(query))
-                {
-                    cmd.Parameters.AddWithValue("@Id", Id);
-                    cmd.Parameters.AddWithValue("@FirstName", FirstName);
-                    cmd.Parameters.AddWithValue("@LastName", LastName);
-                    cmd.Parameters.AddWithValue("@PhoneNumber", PhoneNumber);
-                    cmd.Parameters.AddWithValue("@Gender", Gender);
-                    cmd.Parameters.AddWithValue("@Age", Age);
-                    cmd.Parameters.AddWithValue("@Address", Address);
-                    cmd.Parameters.AddWithValue("@Deseases", Deseases);
-                    cmd.Parameters.AddWithValue("@Date", Date);
-                    cmd.Connection = mysqlconnection;
-                    cmd.ExecuteNonQuery();
-                    mysqlconnection.Close();
-                }
-            }
-            GridView1.EditIndex = -1;
-            // this.BindGrid();
             mydatahandler = new DataHandler();
-            mydatahandler.bindData(GridView1);
-
-
+            mydatahandler.rowUpdateData(GridView1,e);
         }
 
         protected void OnRowCancelingEdit(object sender, EventArgs e)
@@ -95,33 +41,17 @@ namespace Covid_Case_Management_System
             mydatahandler = new DataHandler();
             mydatahandler.bindData(GridView1);
         }
+
         protected void OnRowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            int Id = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Values[0]);
-            string query = "DELETE FROM newCovidCases WHERE Id=@Id";
-            using (SqlConnection mysqlconnection = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework"))
-            {
-                using (SqlCommand cmd = new SqlCommand(query))
-                {
-                    cmd.Parameters.AddWithValue("@Id", Id);
-                    cmd.Connection = mysqlconnection;
-                    mysqlconnection.Open();
-                    cmd.ExecuteNonQuery();
-                    mysqlconnection.Close();
-                }
-            }
-           mydatahandler = new DataHandler();
-            mydatahandler.bindData(GridView1);
-           //this.BindGrid();
+            mydatahandler = new DataHandler();
+            mydatahandler.rowDeleteData(GridView1,e);
         }
         protected void OnPaging(object sender, GridViewPageEventArgs e)
         {
             GridView1.PageIndex = e.NewPageIndex;
             mydatahandler = new DataHandler();
             mydatahandler.bindData(GridView1);
-
-            // this.BindGrid();
-            //mydatahandler.searchingData(GridView1, txtSearch);
         }
         protected void submitBtn_Click(object sender, EventArgs e)
         {
@@ -150,6 +80,12 @@ namespace Covid_Case_Management_System
 
     public class DataHandler
     {
+        public SqlConnection connectToDatabase()
+        {
+            string connectionstring = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework";
+            SqlConnection mysqlconnection = new SqlConnection(connectionstring);
+            return mysqlconnection;
+        }
         public void insertData(CovidCase newCovidCase)
         {
             Model1Container query = new Model1Container();
@@ -168,10 +104,10 @@ namespace Covid_Case_Management_System
 
         public void bindData(GridView aGridView)
         {
-            SqlConnection mysqlconnection = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework");
-            SqlCommand cmd = new SqlCommand();
+            SqlConnection mysqlconnection = connectToDatabase();
             mysqlconnection.Open();
             string sql = "SELECT * FROM newCovidCases";
+            SqlCommand cmd = new SqlCommand();
             cmd.CommandText = sql;
             cmd.Connection = mysqlconnection;
             SqlDataAdapter sda = new SqlDataAdapter(cmd);
@@ -184,7 +120,7 @@ namespace Covid_Case_Management_System
 
         public void searchData(GridView aGridView,TextBox searchkey)
         {
-            SqlConnection mysqlconnection = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework");
+            SqlConnection mysqlconnection = connectToDatabase();
             SqlCommand cmd = new SqlCommand();
             mysqlconnection.Open();
             string sql = "SELECT Id, FirstName, LastName, PhoneNumber, Gender, Age, Address, Deseases, Date FROM newCovidCases";
@@ -201,6 +137,61 @@ namespace Covid_Case_Management_System
             aGridView.DataSource = dt;
             aGridView.DataBind();
             mysqlconnection.Close();
+        }
+
+        public void rowUpdateData(GridView aGridView, GridViewUpdateEventArgs e)
+        {
+            GridViewRow row = aGridView.Rows[e.RowIndex];
+            int Id = Convert.ToInt32(aGridView.DataKeys[e.RowIndex].Values[0]);
+            string FirstName = (row.FindControl("txtFirstName") as TextBox).Text.Trim();
+            string LastName = (row.FindControl("txtLastName") as TextBox).Text;
+            string PhoneNumber = (row.FindControl("txtPhoneNumber") as TextBox).Text;
+            string Gender = (row.FindControl("txtGender") as TextBox).Text;
+            string Age = (row.FindControl("txtAge") as TextBox).Text;
+            string Address = (row.FindControl("txtAddress") as TextBox).Text;
+            string Deseases = (row.FindControl("txtDeseases") as TextBox).Text;
+            string Date = (row.FindControl("txtDate") as TextBox).Text;
+            string query = "UPDATE newCovidCases SET FirstName=@FirstName, LastName=@LastName, PhoneNumber=@PhoneNumber, Gender=@Gender, Age=@Age, Address=@Address, Deseases=@Deseases, Date=@Date WHERE Id=@Id";
+            using (SqlConnection mysqlconnection = connectToDatabase())
+            {
+                mysqlconnection.Open();
+                using (SqlCommand cmd = new SqlCommand(query))
+                {
+                    cmd.Parameters.AddWithValue("@Id", Id);
+                    cmd.Parameters.AddWithValue("@FirstName", FirstName);
+                    cmd.Parameters.AddWithValue("@LastName", LastName);
+                    cmd.Parameters.AddWithValue("@PhoneNumber", PhoneNumber);
+                    cmd.Parameters.AddWithValue("@Gender", Gender);
+                    cmd.Parameters.AddWithValue("@Age", Age);
+                    cmd.Parameters.AddWithValue("@Address", Address);
+                    cmd.Parameters.AddWithValue("@Deseases", Deseases);
+                    cmd.Parameters.AddWithValue("@Date", Date);
+                    cmd.Connection = mysqlconnection;
+                    cmd.ExecuteNonQuery();
+                    mysqlconnection.Close();
+                }
+            }
+            aGridView.EditIndex = -1;
+            bindData(aGridView);
+
+        }
+
+        public void rowDeleteData(GridView aGridView, GridViewDeleteEventArgs e) 
+        {
+            int Id = Convert.ToInt32(aGridView.DataKeys[e.RowIndex].Values[0]);
+            string query = "DELETE FROM newCovidCases WHERE Id=@Id";
+            using (SqlConnection mysqlconnection = connectToDatabase())
+            {
+                using (SqlCommand cmd = new SqlCommand(query))
+                {
+                    cmd.Parameters.AddWithValue("@Id", Id);
+                    cmd.Connection = mysqlconnection;
+                    mysqlconnection.Open();
+                    cmd.ExecuteNonQuery();
+                    mysqlconnection.Close();
+                }
+            }
+            bindData(aGridView);
         }
     }
 
