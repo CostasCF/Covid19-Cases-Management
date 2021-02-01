@@ -81,71 +81,71 @@
                            <asp:Label ID="Id" runat="server" Text='<%# Eval("Id") %>'></asp:Label>
                        </EditItemTemplate>
                        <ItemTemplate>
-                           <asp:Label ID="lblId" runat="server" Text='<%# Bind("Id") %>'></asp:Label>
+                           <asp:Label ID="lblId" runat="server" Text='<%# Eval("Id") %>'></asp:Label>
                        </ItemTemplate>
                    </asp:TemplateField>
                    <asp:TemplateField HeaderText="FirstName" SortExpression="FirstName">
                        <ItemTemplate>
-                           <asp:Label ID="lblFirstName" runat="server" Text='<%# Bind("FirstName") %>'></asp:Label>
+                           <asp:Label ID="lblFirstName" runat="server" Text='<%# Eval("FirstName") %>'></asp:Label>
                        </ItemTemplate>
                          <EditItemTemplate>
-                           <asp:TextBox ID="FirstName" runat="server" Text='<%# Bind("FirstName") %>'></asp:TextBox>
+                           <asp:TextBox ID="txtFirstName" runat="server" Text='<%# Eval("FirstName") %>'></asp:TextBox>
                        </EditItemTemplate>
                    </asp:TemplateField>
                    <asp:TemplateField HeaderText="LastName" SortExpression="LastName">
                        <EditItemTemplate>
-                           <asp:TextBox ID="LastName" runat="server" Text='<%# Bind("LastName") %>'></asp:TextBox>
+                           <asp:TextBox ID="txtLastName" runat="server" Text='<%# Eval("LastName") %>'></asp:TextBox>
                        </EditItemTemplate>
                        <ItemTemplate>
-                           <asp:Label ID="lblLastName" runat="server" Text='<%# Bind("LastName") %>'></asp:Label>
+                           <asp:Label ID="lblLastName" runat="server" Text='<%# Eval("LastName") %>'></asp:Label>
                        </ItemTemplate>
                    </asp:TemplateField>
                    <asp:TemplateField HeaderText="PhoneNumber" SortExpression="PhoneNumber">
                        <EditItemTemplate>
-                           <asp:TextBox ID="PhoneNumber" runat="server" Text='<%# Bind("PhoneNumber") %>'></asp:TextBox>
+                           <asp:TextBox ID="txtPhoneNumber" runat="server" Text='<%# Eval("PhoneNumber") %>'></asp:TextBox>
                        </EditItemTemplate>
                        <ItemTemplate>
-                           <asp:Label ID="lblPhoneNumber" runat="server" Text='<%# Bind("PhoneNumber") %>'></asp:Label>
+                           <asp:Label ID="lblPhoneNumber" runat="server" Text='<%# Eval("PhoneNumber") %>'></asp:Label>
                        </ItemTemplate>
                    </asp:TemplateField>
                    <asp:TemplateField HeaderText="Gender" SortExpression="Gender">
                        <EditItemTemplate>
-                           <asp:TextBox ID="Gender" runat="server" Text='<%# Bind("Gender") %>'></asp:TextBox>
+                           <asp:TextBox ID="txtGender" runat="server" Text='<%# Eval("Gender") %>'></asp:TextBox>
                        </EditItemTemplate>
                        <ItemTemplate>
-                           <asp:Label ID="lblGender" runat="server" Text='<%# Bind("Gender") %>'></asp:Label>
+                           <asp:Label ID="lblGender" runat="server" Text='<%# Eval("Gender") %>'></asp:Label>
                        </ItemTemplate>
                    </asp:TemplateField>
                    <asp:TemplateField HeaderText="Age" SortExpression="Age">
                        <EditItemTemplate>
-                           <asp:TextBox ID="Age" runat="server" Text='<%# Bind("Age") %>'></asp:TextBox>
+                           <asp:TextBox ID="txtAge" runat="server" Text='<%# Eval("Age") %>'></asp:TextBox>
                        </EditItemTemplate>
                        <ItemTemplate>
-                           <asp:Label ID="lblAge" runat="server" Text='<%# Bind("Age") %>'></asp:Label>
+                           <asp:Label ID="lblAge" runat="server" Text='<%# Eval("Age") %>'></asp:Label>
                        </ItemTemplate>
                    </asp:TemplateField>
                    <asp:TemplateField HeaderText="Address" SortExpression="Address">
                        <EditItemTemplate>
-                           <asp:TextBox ID="Address" runat="server" Text='<%# Bind("Address") %>'></asp:TextBox>
+                           <asp:TextBox ID="txtAddress" runat="server" Text='<%# Eval("Address") %>'></asp:TextBox>
                        </EditItemTemplate>
                        <ItemTemplate>
-                           <asp:Label ID="lblAddress" runat="server" Text='<%# Bind("Address") %>'></asp:Label>
+                           <asp:Label ID="lblAddress" runat="server" Text='<%# Eval("Address") %>'></asp:Label>
                        </ItemTemplate>
                    </asp:TemplateField>
                    <asp:TemplateField HeaderText="Deseases" SortExpression="Deseases">
                        <EditItemTemplate>
-                           <asp:TextBox ID="Deseases" runat="server" Text='<%# Bind("Deseases") %>'></asp:TextBox>
+                           <asp:TextBox ID="txtDeseases" runat="server" Text='<%# Eval("Deseases") %>'></asp:TextBox>
                        </EditItemTemplate>
                        <ItemTemplate>
-                           <asp:Label ID="lblDeseases" runat="server" Text='<%# Bind("Deseases") %>'></asp:Label>
+                           <asp:Label ID="lblDeseases" runat="server" Text='<%# Eval("Deseases") %>'></asp:Label>
                        </ItemTemplate>
                    </asp:TemplateField>
                    <asp:TemplateField HeaderText="Date" SortExpression="Date">
                        <EditItemTemplate>
-                           <asp:TextBox ID="Date" runat="server" Text='<%# Bind("Date") %>'></asp:TextBox>
+                           <asp:TextBox ID="txtDate" runat="server" Text='<%# Eval("Date") %>'></asp:TextBox>
                        </EditItemTemplate>
                        <ItemTemplate>
-                           <asp:Label ID="lblDate" runat="server" Text='<%# Bind("Date") %>'></asp:Label>
+                           <asp:Label ID="lblDate" runat="server" Text='<%# Eval("Date") %>'></asp:Label>
                        </ItemTemplate>
                    </asp:TemplateField>
                    <asp:CommandField ButtonType="Link" ShowEditButton="true" ShowDeleteButton="true"

@@ -18,14 +18,16 @@ namespace Covid_Case_Management_System
         protected void Page_Load(object sender, EventArgs e)
         {
             mydatahandler = new DataHandler();
+            if (!IsPostBack) { 
             this.BindGrid();
+        }
             //  mydatahandler.showingData(GridView1);
         }
 
 
         private void BindGrid()
         {
-            string query = "SELECT Id, FirstName, LastName, PhoneNumber, Gender, Age, Address, Deseases, Date FROM newCovidCases";
+            string query = "SELECT * FROM newCovidCases";
             using (SqlConnection mysqlconnection = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework"))
             {
                 using (SqlDataAdapter sda = new SqlDataAdapter(query, mysqlconnection))
@@ -35,6 +37,7 @@ namespace Covid_Case_Management_System
                         sda.Fill(dt);
                         GridView1.DataSource = dt;
                         GridView1.DataBind();
+
                     }
                 }
             }
@@ -42,25 +45,27 @@ namespace Covid_Case_Management_System
         protected void OnRowEditing(object sender, GridViewEditEventArgs e)
         {
             GridView1.EditIndex = e.NewEditIndex;
-           // mydatahandler = new DataHandler();
+            // mydatahandler = new DataHandler();
             //   mydatahandler.showingData(GridView1);
             this.BindGrid();
         }
         protected void OnRowUpdating(object sender, GridViewUpdateEventArgs e)
         {
+            
             GridViewRow row = GridView1.Rows[e.RowIndex];
             int Id = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Values[0]);
-            string FirstName = (row.FindControl("FirstName") as TextBox).Text;
-            string LastName = (row.FindControl("LastName") as TextBox).Text;
-            string PhoneNumber = (row.FindControl("PhoneNumber") as TextBox).Text;
-            string Gender = (row.FindControl("Gender") as TextBox).Text;
-            string Age = (row.FindControl("Age") as TextBox).Text;
-            string Address = (row.FindControl("Address") as TextBox).Text;
-            string Deseases = (row.FindControl("Deseases") as TextBox).Text;
-            string Date = (row.FindControl("Date") as TextBox).Text;
+            string FirstName = (row.FindControl("txtFirstName") as TextBox).Text.Trim();
+            string LastName = (row.FindControl("txtLastName") as TextBox).Text;
+            string PhoneNumber = (row.FindControl("txtPhoneNumber") as TextBox).Text;
+            string Gender = (row.FindControl("txtGender") as TextBox).Text;
+            string Age = (row.FindControl("txtAge") as TextBox).Text;
+            string Address = (row.FindControl("txtAddress") as TextBox).Text;
+            string Deseases = (row.FindControl("txtDeseases") as TextBox).Text;
+            string Date = (row.FindControl("txtDate") as TextBox).Text;
             string query = "UPDATE newCovidCases SET FirstName=@FirstName, LastName=@LastName, PhoneNumber=@PhoneNumber, Gender=@Gender, Age=@Age, Address=@Address, Deseases=@Deseases, Date=@Date WHERE Id=@Id";
             using (SqlConnection mysqlconnection = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework"))
             {
+                mysqlconnection.Open();
                 using (SqlCommand cmd = new SqlCommand(query))
                 {
                     cmd.Parameters.AddWithValue("@Id", Id);
@@ -73,21 +78,22 @@ namespace Covid_Case_Management_System
                     cmd.Parameters.AddWithValue("@Deseases", Deseases);
                     cmd.Parameters.AddWithValue("@Date", Date);
                     cmd.Connection = mysqlconnection;
-                    mysqlconnection.Open();
                     cmd.ExecuteNonQuery();
                     mysqlconnection.Close();
                 }
             }
             GridView1.EditIndex = -1;
-            this.BindGrid();
+                this.BindGrid();
+            
         }
 
         protected void OnRowCancelingEdit(object sender, EventArgs e)
         {
             GridView1.EditIndex = -1;
-          //  mydatahandler = new DataHandler();
-          //  mydatahandler.showingData(GridView1);
-            this.BindGrid();
+            //  mydatahandler = new DataHandler();
+            //  mydatahandler.showingData(GridView1);
+            if (!IsPostBack)
+                this.BindGrid();
         }
         protected void OnRowDeleting(object sender, GridViewDeleteEventArgs e)
         {
@@ -111,6 +117,7 @@ namespace Covid_Case_Management_System
         protected void OnPaging(object sender, GridViewPageEventArgs e)
         {
             GridView1.PageIndex = e.NewPageIndex;
+
             this.BindGrid();
             mydatahandler = new DataHandler();
             //mydatahandler.searchingData(GridView1, txtSearch);
@@ -127,20 +134,20 @@ namespace Covid_Case_Management_System
             string Date = dateBox.Text.ToString();
             newCovidCase = new CovidCase(FirstName, LastName, PhoneNumber, Gender, Age, Address, Deseases, Date);
             mydatahandler = new DataHandler();
-            mydatahandler.insertingData(newCovidCase);
+            mydatahandler.insertData(newCovidCase);
 
         }
 
         protected void searchBtn_Click(object sender, EventArgs e)
         {
             mydatahandler = new DataHandler();
-            mydatahandler.searchingData(GridView1, txtSearch);
+            mydatahandler.searchData(GridView1, txtSearch);
         }
     }
 
     public class DataHandler
     {
-        public void insertingData(CovidCase newCovidCase)
+        public void insertData(CovidCase newCovidCase)
         {
             Model1Container query = new Model1Container();
             newCovidCase ncc = new newCovidCase();
@@ -156,23 +163,23 @@ namespace Covid_Case_Management_System
             query.SaveChanges();
         }
 
-        //public void showingData(GridView aGridView)
-        //{
-        //    SqlConnection mysqlconnection = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework");
-        //    SqlCommand cmd = new SqlCommand();
-        //    mysqlconnection.Open();
-        //    string sql = "SELECT Id, FirstName, LastName, PhoneNumber, Gender, Age, Address, Deseases, Date FROM newCovidCases";
-        //    cmd.CommandText = sql;
-        //    cmd.Connection = mysqlconnection;
-        //    SqlDataAdapter sda = new SqlDataAdapter(cmd);
-        //    DataTable dt = new DataTable();
-        //    sda.Fill(dt);
-        //    aGridView.DataSource = dt;
-        //    aGridView.DataBind();
-        //    mysqlconnection.Close();
-        //}
+        public void showData(GridView aGridView)
+        {
+            SqlConnection mysqlconnection = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework");
+            SqlCommand cmd = new SqlCommand();
+            mysqlconnection.Open();
+            string sql = "SELECT Id, FirstName, LastName, PhoneNumber, Gender, Age, Address, Deseases, Date FROM newCovidCases";
+            cmd.CommandText = sql;
+            cmd.Connection = mysqlconnection;
+            SqlDataAdapter sda = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            aGridView.DataSource = dt;
+            aGridView.DataBind();
+            mysqlconnection.Close();
+        }
 
-        public void searchingData(GridView aGridView,TextBox searchkey)
+        public void searchData(GridView aGridView,TextBox searchkey)
         {
             SqlConnection mysqlconnection = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework");
             SqlCommand cmd = new SqlCommand();
