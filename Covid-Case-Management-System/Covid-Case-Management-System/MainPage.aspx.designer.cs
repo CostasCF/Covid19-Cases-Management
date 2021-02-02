@@ -96,13 +96,22 @@ namespace Covid_Case_Management_System
         protected global::System.Web.UI.WebControls.Label genderLbl;
 
         /// <summary>
-        /// genderBox control.
+        /// maleRdoBtn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox genderBox;
+        protected global::System.Web.UI.WebControls.RadioButton maleRdoBtn;
+
+        /// <summary>
+        /// femaleRdoBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RadioButton femaleRdoBtn;
 
         /// <summary>
         /// agelbl control.
@@ -211,5 +220,23 @@ namespace Covid_Case_Management_System
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView GridView1;
+
+        /// <summary>
+        /// lblStatistics control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblStatistics;
+
+        /// <summary>
+        /// Label1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label1;
     }
 }

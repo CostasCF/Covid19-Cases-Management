@@ -13,42 +13,43 @@
             <br />
             <asp:Label ID="firstNamelbl" runat="server" Text="First Name:"></asp:Label>
             <br />
-            <asp:TextBox ID="firstNameBox" runat="server"></asp:TextBox>
+            <asp:TextBox ID="firstNameBox" runat="server" required="true" maxlength="50"></asp:TextBox>
             <br />
             <br />
             <asp:Label ID="lastNamelbl" runat="server" Text="Last Name:"></asp:Label>
             <br />
-            <asp:TextBox ID="lastNameBox" runat="server"></asp:TextBox>
+            <asp:TextBox ID="lastNameBox" runat="server" maxlength="50"></asp:TextBox>
             <br />
             <br />
             <asp:Label ID="phoneNumberlbl" runat="server" Text="Phone Number:"></asp:Label>
             <br />
-            <asp:TextBox ID="phoneNumberBox" runat="server"></asp:TextBox>
+            <asp:TextBox ID="phoneNumberBox" runat="server"  pattern="[0-9]{10}" maxlength="10"  required="true" onkeypress="return !(event.charCode > 31 &&  (event.charCode < 48 || event.charCode > 57))" TextMode="Phone" ></asp:TextBox>
             <br />
             <br />
             <asp:Label ID="genderLbl" runat="server" Text="Gender:"></asp:Label>
             <br />
-            <asp:TextBox ID="genderBox" runat="server"></asp:TextBox>
+            <asp:RadioButton ID="maleRdoBtn" runat="server" Text="Male" GroupName="Gender" required="true" />
             <br />
+            <asp:RadioButton ID="femaleRdoBtn" runat="server" Text="Female" GroupName="Gender" required="true"/>
             <br />
             <asp:Label ID="agelbl" runat="server" Text="Age:"></asp:Label>
             <br />
-            <asp:TextBox ID="ageBox" runat="server"></asp:TextBox>
+            <asp:TextBox ID="ageBox" runat="server" required="true" TextMode="Number"  maxlength="3" ></asp:TextBox>
             <br />
             <br />
             <asp:Label ID="addresslbl" runat="server" Text="Address:"></asp:Label>
             <br />
-            <asp:TextBox ID="addressBox" runat="server"></asp:TextBox>
+            <asp:TextBox ID="addressBox" runat="server" required="true"  maxlength="100"></asp:TextBox>
             <br />
             <br />
             <asp:Label ID="deseaseslbl" runat="server" Text="Underlying Deseases:"></asp:Label>
             <br />
-            <asp:TextBox ID="deseasesBox" runat="server"></asp:TextBox>
+            <asp:TextBox ID="deseasesBox" runat="server"  maxlength="150"></asp:TextBox>
             <br />
             <br />
             <asp:Label ID="datelbl" runat="server" Text="Date:"></asp:Label>
             <br />
-            <asp:TextBox ID="dateBox" runat="server"></asp:TextBox>
+            <asp:TextBox ID="dateBox" runat="server" required="true"  maxlength="50" TextMode="Date" ></asp:TextBox>
             <br />
         </div>
         <br />
@@ -153,6 +154,14 @@
 
        </Columns>
        </asp:GridView>
+
+   
+        <br />
+        <br />
+        <asp:Label ID="lblStatistics" runat="server" BorderStyle="None" Font-Size="20pt" Text="Statistics"></asp:Label>
+        <br />
+        <br />
+        <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
 
    
     </form>

@@ -58,7 +58,11 @@ namespace Covid_Case_Management_System
             string FirstName = firstNameBox.Text.ToString();
             string LastName = lastNameBox.Text.ToString();
             string PhoneNumber = phoneNumberBox.Text.ToString();
-            string Gender = genderBox.Text.ToString();
+            string Gender;
+            if (maleRdoBtn.Enabled)
+                Gender = maleRdoBtn.Text.ToString();
+            else
+                Gender = femaleRdoBtn.Text.ToString();
             string Age = ageBox.Text.ToString();
             string Address = addressBox.Text.ToString();
             string Deseases = deseasesBox.Text.ToString();
@@ -76,6 +80,7 @@ namespace Covid_Case_Management_System
             mydatahandler = new DataHandler();
             mydatahandler.searchData(GridView1, txtSearch);
         }
+
     }
 
     public class DataHandler
