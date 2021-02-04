@@ -4,6 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <link rel="stylesheet" href="StyleSheet.css" />
     <title></title>
     </head>
 <body>
@@ -18,7 +19,7 @@
             <br />
             <asp:Label ID="lastNamelbl" runat="server" Text="Last Name:"></asp:Label>
             <br />
-            <asp:TextBox ID="lastNameBox" runat="server" maxlength="50"></asp:TextBox>
+            <asp:TextBox ID="lastNameBox" runat="server" maxlength="50" required="true"></asp:TextBox>
             <br />
             <br />
             <asp:Label ID="phoneNumberlbl" runat="server" Text="Phone Number:"></asp:Label>
@@ -56,14 +57,15 @@
 
 
         <asp:Button ID="submitBtn" runat="server" OnClick="submitBtn_Click" Text="Submit" />
+         <br />
          <hr />
 
+            <asp:Label ID="searchAcaseLbl" runat="server" Font-Size="20pt" Text="View, Edit and Search the database:"></asp:Label>
         <br />
         <br />
          <!-- search section -->
-        <asp:TextBox ID="txtSearch" runat="server"></asp:TextBox>
-        <asp:Button ID="searchBtn" runat="server" OnClick="searchBtn_Click" Text="Search" />
-        <hr />
+        <asp:TextBox GroupName="SearchSection" ID="txtSearch" runat="server"></asp:TextBox>
+        <asp:Button GroupName="SearchSection" ID="searchBtn" runat="server" OnClick="searchBtn_Click" Text="Search" CausesValidation="False" UseSubmitBehavior="False" />
         <!-- gridview -->
         <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" Width="649px"
            DataKeyNames="Id" AllowPaging="True" OnPageIndexChanging="OnPaging" OnRowEditing="OnRowEditing" OnRowCancelingEdit="OnRowCancelingEdit"  OnRowUpdating="OnRowUpdating" OnRowDeleting="OnRowDeleting" EmptyDataText="No records has been added." > 
@@ -150,13 +152,14 @@
                        </ItemTemplate>
                    </asp:TemplateField>
                    <asp:CommandField ButtonType="Link" ShowEditButton="true" ShowDeleteButton="true"
-                    ItemStyle-Width="100"  />
+                    ItemStyle-Width="70"  />
 
        </Columns>
        </asp:GridView>
 
    
         <br />
+        <hr />
         <br />
         <asp:Label ID="lblStatistics" runat="server" BorderStyle="None" Font-Size="20pt" Text="Statistics"></asp:Label>
         <br />
