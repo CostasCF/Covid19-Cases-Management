@@ -1,12 +1,15 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MainPage.aspx.cs" Inherits="Covid_Case_Management_System.MainPage" %>
 
+<%@ Register assembly="System.Web.DataVisualization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" namespace="System.Web.UI.DataVisualization.Charting" tagprefix="asp" %>
+
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <link rel="stylesheet" href="StyleSheet.css" />
-    <title></title>
+    <title>Covid19-Database</title>
     </head>
+
 <body>
     <form id="form1" runat="server">
         <div>
@@ -164,7 +167,35 @@
         <asp:Label ID="lblStatistics" runat="server" BorderStyle="None" Font-Size="20pt" Text="Statistics"></asp:Label>
         <br />
         <br />
-        <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+        &nbsp;
+        <asp:Label ID="Label1" runat="server" Text="Case's change/date"></asp:Label>
+
+   
+        <br />
+
+   
+        <asp:Chart ID="Chart1" runat="server" DataSourceID="SqlDataSource1">
+            <series>
+                <asp:Series ChartType="Line" Name="Series1" XValueMember="Date" YValueMembers="Id">
+                </asp:Series>
+            </series>
+            <chartareas>
+                <asp:ChartArea Name="ChartArea1">
+                </asp:ChartArea>
+            </chartareas>
+        </asp:Chart>
+        &nbsp;&nbsp;
+        <asp:Chart ID="Chart2" runat="server" DataSourceID="SqlDataSource1">
+            <Series>
+                <asp:Series ChartType="Pie" Name="Series1" XValueMember="Age" YValueMembers="Id" YValuesPerPoint="2">
+                </asp:Series>
+            </Series>
+            <ChartAreas>
+                <asp:ChartArea Name="ChartArea1">
+                </asp:ChartArea>
+            </ChartAreas>
+        </asp:Chart>
+&nbsp;<asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:Covid19-CaseDBConnectionString2 %>" SelectCommand="SELECT * FROM [newCovidCases]"></asp:SqlDataSource>
 
    
     </form>

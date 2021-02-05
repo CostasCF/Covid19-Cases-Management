@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Web.UI.DataVisualization.Charting;
 
 namespace Covid_Case_Management_System
 {
@@ -18,40 +19,60 @@ namespace Covid_Case_Management_System
         protected void Page_Load(object sender, EventArgs e)
         {
             mydatahandler = new DataHandler();
-            if (!IsPostBack) {
-                mydatahandler.bindData(GridView1);
-            }
+            if (!IsPostBack)
+            {  
+                mydatahandler.BindData(GridView1);
+
+                DataTable dt = new DataTable();
+                using (SqlConnection con = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework"))
+                {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("select count(Id),Age from newCovidCases group by Age order by count(Id) DESC", con);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                    con.Close();
+                }
+                string[] x = new string[dt.Rows.Count];
+                int[] y = new int[dt.Rows.Count];
+                for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    x[i] = dt.Rows[i][0].ToString();
+                    y[i] = Convert.ToInt32(dt.Rows[i][1]);
+                }
+                Chart1.Series[0].Points.DataBindXY(x, y);
+        
+        }
         }
 
         protected void OnRowEditing(object sender, GridViewEditEventArgs e)
         {
             GridView1.EditIndex = e.NewEditIndex;
             mydatahandler = new DataHandler();
-            mydatahandler.bindData(GridView1);
+            mydatahandler.BindData(GridView1);
         }
         protected void OnRowUpdating(object sender, GridViewUpdateEventArgs e)
         {
             mydatahandler = new DataHandler();
-            mydatahandler.rowUpdateData(GridView1,e);
+            mydatahandler.RowUpdateData(GridView1,e);
         }
 
         protected void OnRowCancelingEdit(object sender, EventArgs e)
         {
             GridView1.EditIndex = -1;
             mydatahandler = new DataHandler();
-            mydatahandler.bindData(GridView1);
+            mydatahandler.BindData(GridView1);
         }
 
         protected void OnRowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             mydatahandler = new DataHandler();
-            mydatahandler.rowDeleteData(GridView1,e);
+            mydatahandler.RowDeleteData(GridView1,e);
         }
         protected void OnPaging(object sender, GridViewPageEventArgs e)
         {
             GridView1.PageIndex = e.NewPageIndex;
             mydatahandler = new DataHandler();
-            mydatahandler.bindData(GridView1);
+            mydatahandler.BindData(GridView1);
         }
         protected void submitBtn_Click(object sender, EventArgs e)
         {
@@ -69,8 +90,8 @@ namespace Covid_Case_Management_System
             string Date = dateBox.Text.ToString();
             newCovidCase = new CovidCase(FirstName, LastName, PhoneNumber, Gender, Age, Address, Deseases, Date);
             mydatahandler = new DataHandler();
-            mydatahandler.insertData(newCovidCase);
-            mydatahandler.bindData(GridView1);
+            mydatahandler.InsertData(newCovidCase);
+            mydatahandler.BindData(GridView1);
 
 
         }
@@ -78,21 +99,21 @@ namespace Covid_Case_Management_System
         protected void searchBtn_Click(object sender, EventArgs e)
         {
             mydatahandler = new DataHandler();
-            mydatahandler.searchData(GridView1, txtSearch);
+            mydatahandler.SearchData(GridView1, txtSearch);
         }
 
     }
 
     public class DataHandler
     {
-        public SqlConnection connectToDatabase()
+        public SqlConnection ConnectToDatabase()
         {
             string connectionstring = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework";
             SqlConnection mysqlconnection = new SqlConnection(connectionstring);
             return mysqlconnection;
         }
 
-        public DataTable executeSqlCommand(string command, SqlConnection mysqlconnection) //example: SELECT command to a database
+        public DataTable ExecuteSqlCommand(string command, SqlConnection mysqlconnection) //example: SELECT command to a database
         {
             SqlCommand cmd = new SqlCommand();
             cmd.CommandText = command;
@@ -104,7 +125,7 @@ namespace Covid_Case_Management_System
 
         }
 
-        public void insertData(CovidCase newCovidCase)
+        public void InsertData(CovidCase newCovidCase)
         {
             Model1Container query = new Model1Container();
             newCovidCase ncc = new newCovidCase();
@@ -120,20 +141,20 @@ namespace Covid_Case_Management_System
             query.SaveChanges();
         }
 
-        public void bindData(GridView aGridView)
+        public void BindData(GridView aGridView)
         {
-            SqlConnection mysqlconnection = connectToDatabase();
+            SqlConnection mysqlconnection = ConnectToDatabase();
             mysqlconnection.Open();
             DataTable dt = new DataTable();
-            dt = executeSqlCommand("SELECT * FROM newCovidCases", mysqlconnection);
+            dt = ExecuteSqlCommand("SELECT * FROM newCovidCases", mysqlconnection);
             aGridView.DataSource = dt;
             aGridView.DataBind();
             mysqlconnection.Close();
         }
 
-        public void searchData(GridView aGridView,TextBox searchkey)
+        public void SearchData(GridView aGridView,TextBox searchkey)
         {
-            SqlConnection mysqlconnection = connectToDatabase();
+            SqlConnection mysqlconnection = ConnectToDatabase();
             SqlCommand cmd = new SqlCommand();
             mysqlconnection.Open();
             string sql = "SELECT Id, FirstName, LastName, PhoneNumber, Gender, Age, Address, Deseases, Date FROM newCovidCases";
@@ -152,7 +173,7 @@ namespace Covid_Case_Management_System
             mysqlconnection.Close();
         }
 
-        public void rowUpdateData(GridView aGridView, GridViewUpdateEventArgs e)
+        public void RowUpdateData(GridView aGridView, GridViewUpdateEventArgs e)
         {
             GridViewRow row = aGridView.Rows[e.RowIndex];
             int Id = Convert.ToInt32(aGridView.DataKeys[e.RowIndex].Values[0]);
@@ -165,7 +186,7 @@ namespace Covid_Case_Management_System
             string Deseases = (row.FindControl("txtDeseases") as TextBox).Text;
             string Date = (row.FindControl("txtDate") as TextBox).Text;
             string query = "UPDATE newCovidCases SET FirstName=@FirstName, LastName=@LastName, PhoneNumber=@PhoneNumber, Gender=@Gender, Age=@Age, Address=@Address, Deseases=@Deseases, Date=@Date WHERE Id=@Id";
-            using (SqlConnection mysqlconnection = connectToDatabase())
+            using (SqlConnection mysqlconnection = ConnectToDatabase())
             {
                 mysqlconnection.Open();
                 using (SqlCommand cmd = new SqlCommand(query))
@@ -185,15 +206,15 @@ namespace Covid_Case_Management_System
                 }
             }
             aGridView.EditIndex = -1;
-            bindData(aGridView);
+            BindData(aGridView);
 
         }
 
-        public void rowDeleteData(GridView aGridView, GridViewDeleteEventArgs e) 
+        public void RowDeleteData(GridView aGridView, GridViewDeleteEventArgs e) 
         {
             int Id = Convert.ToInt32(aGridView.DataKeys[e.RowIndex].Values[0]);
             string query = "DELETE FROM newCovidCases WHERE Id=@Id";
-            using (SqlConnection mysqlconnection = connectToDatabase())
+            using (SqlConnection mysqlconnection = ConnectToDatabase())
             {
                 using (SqlCommand cmd = new SqlCommand(query))
                 {
@@ -204,7 +225,7 @@ namespace Covid_Case_Management_System
                     mysqlconnection.Close();
                 }
             }
-            bindData(aGridView);
+            BindData(aGridView);
         }
     }
 
