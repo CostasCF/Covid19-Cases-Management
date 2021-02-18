@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 01/29/2021 21:16:05
+-- Date Created: 02/18/2021 13:30:17
 -- Generated from EDMX file: C:\Users\kkalo\OneDrive\Documents\GitHub\Covid19-Cases-Management\Covid-Case-Management-System\Covid-Case-Management-System\Model1.edmx
 -- --------------------------------------------------
 
@@ -22,6 +22,9 @@ GO
 -- Dropping existing tables
 -- --------------------------------------------------
 
+IF OBJECT_ID(N'[dbo].[newCovidCases]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[newCovidCases];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -34,7 +37,7 @@ CREATE TABLE [dbo].[newCovidCases] (
     [LastName] nvarchar(max)  NOT NULL,
     [PhoneNumber] nvarchar(max)  NOT NULL,
     [Gender] nvarchar(max)  NOT NULL,
-    [Age] nvarchar(max)  NOT NULL,
+    [Age] int  NOT NULL,
     [Address] nvarchar(max)  NOT NULL,
     [Deseases] nvarchar(max)  NULL,
     [Date] nvarchar(max)  NOT NULL

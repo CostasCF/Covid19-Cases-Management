@@ -19,7 +19,7 @@ namespace Covid_Case_Management_System
         public string LastName { get; set; }
         public string PhoneNumber { get; set; }
         public string Gender { get; set; }
-        public string Age { get; set; }
+        public int Age { get; set; }
         public string Address { get; set; }
         public string Deseases { get; set; }
         public string Date { get; set; }

@@ -22,26 +22,7 @@ namespace Covid_Case_Management_System
             if (!IsPostBack)
             {  
                 mydatahandler.BindData(GridView1);
-
-                DataTable dt = new DataTable();
-                using (SqlConnection con = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework"))
-                {
-                    con.Open();
-                    SqlCommand cmd = new SqlCommand("select count(Id),Age from newCovidCases group by Age order by count(Id) DESC", con);
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
-                    da.Fill(dt);
-                    con.Close();
-                }
-                string[] x = new string[dt.Rows.Count];
-                int[] y = new int[dt.Rows.Count];
-                for (int i = 0; i < dt.Rows.Count; i++)
-                {
-                    x[i] = dt.Rows[i][0].ToString();
-                    y[i] = Convert.ToInt32(dt.Rows[i][1]);
-                }
-                Chart1.Series[0].Points.DataBindXY(x, y);
-        
-        }
+              }
         }
 
         protected void OnRowEditing(object sender, GridViewEditEventArgs e)
@@ -80,10 +61,14 @@ namespace Covid_Case_Management_System
             string LastName = lastNameBox.Text.ToString();
             string PhoneNumber = phoneNumberBox.Text.ToString();
             string Gender;
-            if (maleRdoBtn.Enabled)
+            if (maleRdoBtn.Checked)
+            {
                 Gender = maleRdoBtn.Text.ToString();
+            }
             else
+            {
                 Gender = femaleRdoBtn.Text.ToString();
+            }
             string Age = ageBox.Text.ToString();
             string Address = addressBox.Text.ToString();
             string Deseases = deseasesBox.Text.ToString();
@@ -133,7 +118,7 @@ namespace Covid_Case_Management_System
             ncc.LastName = newCovidCase.LastName;
             ncc.PhoneNumber = newCovidCase.PhoneNumber;
             ncc.Gender = newCovidCase.Gender;
-            ncc.Age = newCovidCase.Age;
+            ncc.Age = Int32.Parse((newCovidCase.Age));
             ncc.Address = newCovidCase.Address;
             ncc.Deseases = newCovidCase.Deseases;
             ncc.Date = newCovidCase.Date;
@@ -160,8 +145,8 @@ namespace Covid_Case_Management_System
             string sql = "SELECT Id, FirstName, LastName, PhoneNumber, Gender, Age, Address, Deseases, Date FROM newCovidCases";
             if (!string.IsNullOrEmpty(searchkey.Text.Trim()))
             {
-                sql += " WHERE FirstName LIKE @FirstName + '%'";
-                cmd.Parameters.AddWithValue("@FirstName", searchkey.Text.Trim());
+                sql += " WHERE LastName LIKE @LastName + '%'";
+                cmd.Parameters.AddWithValue("@LastName", searchkey.Text.Trim());
             }
             cmd.CommandText = sql;
             cmd.Connection = mysqlconnection;
@@ -196,7 +181,7 @@ namespace Covid_Case_Management_System
                     cmd.Parameters.AddWithValue("@LastName", LastName);
                     cmd.Parameters.AddWithValue("@PhoneNumber", PhoneNumber);
                     cmd.Parameters.AddWithValue("@Gender", Gender);
-                    cmd.Parameters.AddWithValue("@Age", Age);
+                    cmd.Parameters.AddWithValue("@Age", Int32.Parse(Age));
                     cmd.Parameters.AddWithValue("@Address", Address);
                     cmd.Parameters.AddWithValue("@Deseases", Deseases);
                     cmd.Parameters.AddWithValue("@Date", Date);

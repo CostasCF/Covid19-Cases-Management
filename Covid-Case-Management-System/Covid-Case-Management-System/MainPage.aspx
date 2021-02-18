@@ -66,10 +66,16 @@
             <asp:Label ID="searchAcaseLbl" runat="server" Font-Size="20pt" Text="View, Edit and Search the database:"></asp:Label>
         <br />
         <br />
+            <asp:Label ID="enterAstringLbl" runat="server" Text="Enter a last name:"></asp:Label>
+        <br />
          <!-- search section -->
-        <asp:TextBox GroupName="SearchSection" ID="txtSearch" runat="server"></asp:TextBox>
-        <asp:Button GroupName="SearchSection" ID="searchBtn" runat="server" OnClick="searchBtn_Click" Text="Search" CausesValidation="False" UseSubmitBehavior="False" />
+        <asp:TextBox GroupName="SearchSection" ID="txtSearch" runat="server" Height="16px" Width="207px"></asp:TextBox>
         <!-- gridview -->
+        <br />
+        <br />
+        <asp:Button GroupName="SearchSection" ID="searchBtn" runat="server" OnClick="searchBtn_Click" Text="Search" CausesValidation="False" UseSubmitBehavior="False" Width="100px" />
+        <br />
+        <br />
         <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" BackColor="White" BorderColor="#CCCCCC" BorderStyle="None" BorderWidth="1px" CellPadding="3" Width="649px"
            DataKeyNames="Id" AllowPaging="True" OnPageIndexChanging="OnPaging" OnRowEditing="OnRowEditing" OnRowCancelingEdit="OnRowCancelingEdit"  OnRowUpdating="OnRowUpdating" OnRowDeleting="OnRowDeleting" EmptyDataText="No records has been added." > 
             <FooterStyle BackColor="White" ForeColor="#000066" />
@@ -171,7 +177,7 @@
         <asp:Label ID="Label1" runat="server" Text="Case's change/date"></asp:Label>
 
    
-        <br />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Number of covid cases/age<br />
 
    
         <asp:Chart ID="Chart1" runat="server" DataSourceID="SqlDataSource1">
@@ -187,7 +193,7 @@
         &nbsp;&nbsp;
         <asp:Chart ID="Chart2" runat="server" DataSourceID="SqlDataSource1">
             <Series>
-                <asp:Series ChartType="Pie" Name="Series1" XValueMember="Age" YValueMembers="Id" YValuesPerPoint="2">
+                <asp:Series ChartType="Bar" Name="Series1" XValueMember="Age" YValueMembers="Id" YValuesPerPoint="2">
                 </asp:Series>
             </Series>
             <ChartAreas>
@@ -195,7 +201,48 @@
                 </asp:ChartArea>
             </ChartAreas>
         </asp:Chart>
-&nbsp;<asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:Covid19-CaseDBConnectionString2 %>" SelectCommand="SELECT * FROM [newCovidCases]"></asp:SqlDataSource>
+&nbsp;<asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:Covid19-CaseDBConnectionString2 %>" SelectCommand="SELECT * FROM [newCovidCases]" ConflictDetection="CompareAllValues" DeleteCommand="DELETE FROM [newCovidCases] WHERE [Id] = @original_Id AND [FirstName] = @original_FirstName AND [LastName] = @original_LastName AND [PhoneNumber] = @original_PhoneNumber AND [Gender] = @original_Gender AND [Age] = @original_Age AND [Address] = @original_Address AND (([Deseases] = @original_Deseases) OR ([Deseases] IS NULL AND @original_Deseases IS NULL)) AND [Date] = @original_Date" InsertCommand="INSERT INTO [newCovidCases] ([FirstName], [LastName], [PhoneNumber], [Gender], [Age], [Address], [Deseases], [Date]) VALUES (@FirstName, @LastName, @PhoneNumber, @Gender, @Age, @Address, @Deseases, @Date)" OldValuesParameterFormatString="original_{0}" UpdateCommand="UPDATE [newCovidCases] SET [FirstName] = @FirstName, [LastName] = @LastName, [PhoneNumber] = @PhoneNumber, [Gender] = @Gender, [Age] = @Age, [Address] = @Address, [Deseases] = @Deseases, [Date] = @Date WHERE [Id] = @original_Id AND [FirstName] = @original_FirstName AND [LastName] = @original_LastName AND [PhoneNumber] = @original_PhoneNumber AND [Gender] = @original_Gender AND [Age] = @original_Age AND [Address] = @original_Address AND (([Deseases] = @original_Deseases) OR ([Deseases] IS NULL AND @original_Deseases IS NULL)) AND [Date] = @original_Date">
+            <DeleteParameters>
+                <asp:Parameter Name="original_Id" Type="Int32" />
+                <asp:Parameter Name="original_FirstName" Type="String" />
+                <asp:Parameter Name="original_LastName" Type="String" />
+                <asp:Parameter Name="original_PhoneNumber" Type="String" />
+                <asp:Parameter Name="original_Gender" Type="String" />
+                <asp:Parameter Name="original_Age" Type="Int32" />
+                <asp:Parameter Name="original_Address" Type="String" />
+                <asp:Parameter Name="original_Deseases" Type="String" />
+                <asp:Parameter Name="original_Date" Type="String" />
+            </DeleteParameters>
+            <InsertParameters>
+                <asp:Parameter Name="FirstName" Type="String" />
+                <asp:Parameter Name="LastName" Type="String" />
+                <asp:Parameter Name="PhoneNumber" Type="String" />
+                <asp:Parameter Name="Gender" Type="String" />
+                <asp:Parameter Name="Age" Type="Int32" />
+                <asp:Parameter Name="Address" Type="String" />
+                <asp:Parameter Name="Deseases" Type="String" />
+                <asp:Parameter Name="Date" Type="String" />
+            </InsertParameters>
+            <UpdateParameters>
+                <asp:Parameter Name="FirstName" Type="String" />
+                <asp:Parameter Name="LastName" Type="String" />
+                <asp:Parameter Name="PhoneNumber" Type="String" />
+                <asp:Parameter Name="Gender" Type="String" />
+                <asp:Parameter Name="Age" Type="Int32" />
+                <asp:Parameter Name="Address" Type="String" />
+                <asp:Parameter Name="Deseases" Type="String" />
+                <asp:Parameter Name="Date" Type="String" />
+                <asp:Parameter Name="original_Id" Type="Int32" />
+                <asp:Parameter Name="original_FirstName" Type="String" />
+                <asp:Parameter Name="original_LastName" Type="String" />
+                <asp:Parameter Name="original_PhoneNumber" Type="String" />
+                <asp:Parameter Name="original_Gender" Type="String" />
+                <asp:Parameter Name="original_Age" Type="Int32" />
+                <asp:Parameter Name="original_Address" Type="String" />
+                <asp:Parameter Name="original_Deseases" Type="String" />
+                <asp:Parameter Name="original_Date" Type="String" />
+            </UpdateParameters>
+        </asp:SqlDataSource>
 
    
     </form>
