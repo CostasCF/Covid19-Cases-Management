@@ -1,2 +1,0 @@
-﻿DBCC CHECKIDENT ('newCovidCases', RESEED, 0)
-GO

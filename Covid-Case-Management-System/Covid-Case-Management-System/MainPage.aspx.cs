@@ -25,6 +25,7 @@ namespace Covid_Case_Management_System
               }
         }
 
+        #region controlsEvents
         protected void OnRowEditing(object sender, GridViewEditEventArgs e)
         {
             GridView1.EditIndex = e.NewEditIndex;
@@ -55,6 +56,7 @@ namespace Covid_Case_Management_System
             mydatahandler = new DataHandler();
             mydatahandler.BindData(GridView1);
         }
+        
         protected void submitBtn_Click(object sender, EventArgs e)
         {
             string FirstName = firstNameBox.Text.ToString();
@@ -75,8 +77,8 @@ namespace Covid_Case_Management_System
             string Date = dateBox.Text.ToString();
             newCovidCase = new CovidCase(FirstName, LastName, PhoneNumber, Gender, Age, Address, Deseases, Date);
             mydatahandler = new DataHandler();
-            mydatahandler.InsertData(newCovidCase);
-            mydatahandler.BindData(GridView1);
+            mydatahandler.InsertData(newCovidCase); //inserts data
+            mydatahandler.BindData(GridView1); 
 
 
         }
@@ -86,18 +88,20 @@ namespace Covid_Case_Management_System
             mydatahandler = new DataHandler();
             mydatahandler.SearchData(GridView1, txtSearch);
         }
-
+        #endregion
     }
 
     public class DataHandler
-    {
+    { 
+        //connects to the database via the given connection string
         public SqlConnection ConnectToDatabase()
         {
             string connectionstring = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Covid19-CaseDB;Integrated Security=True;MultipleActiveResultSets=True;Application Name=EntityFramework";
             SqlConnection mysqlconnection = new SqlConnection(connectionstring);
             return mysqlconnection;
-        }
+        }        
 
+        //executes an SQL command like a SELECT command
         public DataTable ExecuteSqlCommand(string command, SqlConnection mysqlconnection) //example: SELECT command to a database
         {
             SqlCommand cmd = new SqlCommand();
@@ -110,10 +114,11 @@ namespace Covid_Case_Management_System
 
         }
 
+        //inserts the data into the database using C# Model Container
         public void InsertData(CovidCase newCovidCase)
         {
             Model1Container query = new Model1Container();
-            newCovidCase ncc = new newCovidCase();
+            newCovidCase ncc = new newCovidCase(); //ncc is an object reference to the table of the database
             ncc.FirstName = newCovidCase.FirstName;
             ncc.LastName = newCovidCase.LastName;
             ncc.PhoneNumber = newCovidCase.PhoneNumber;
@@ -121,11 +126,12 @@ namespace Covid_Case_Management_System
             ncc.Age = Int32.Parse((newCovidCase.Age));
             ncc.Address = newCovidCase.Address;
             ncc.Deseases = newCovidCase.Deseases;
-            ncc.Date = newCovidCase.Date;
+            ncc.Date = newCovidCase.Date;   
             query.newCovidCases.Add(ncc);
             query.SaveChanges();
         }
 
+        //reloads/refreshes the data in the gridview
         public void BindData(GridView aGridView)
         {
             SqlConnection mysqlconnection = ConnectToDatabase();
@@ -136,7 +142,8 @@ namespace Covid_Case_Management_System
             aGridView.DataBind();
             mysqlconnection.Close();
         }
-
+        
+        //searchs data into the database based on the LastName field
         public void SearchData(GridView aGridView,TextBox searchkey)
         {
             SqlConnection mysqlconnection = ConnectToDatabase();
@@ -158,6 +165,7 @@ namespace Covid_Case_Management_System
             mysqlconnection.Close();
         }
 
+        //updates the data to the database via the row edited by the user 
         public void RowUpdateData(GridView aGridView, GridViewUpdateEventArgs e)
         {
             GridViewRow row = aGridView.Rows[e.RowIndex];
@@ -181,7 +189,7 @@ namespace Covid_Case_Management_System
                     cmd.Parameters.AddWithValue("@LastName", LastName);
                     cmd.Parameters.AddWithValue("@PhoneNumber", PhoneNumber);
                     cmd.Parameters.AddWithValue("@Gender", Gender);
-                    cmd.Parameters.AddWithValue("@Age", Int32.Parse(Age));
+                    cmd.Parameters.AddWithValue("@Age", Int32.Parse(Age));          
                     cmd.Parameters.AddWithValue("@Address", Address);
                     cmd.Parameters.AddWithValue("@Deseases", Deseases);
                     cmd.Parameters.AddWithValue("@Date", Date);
@@ -193,8 +201,9 @@ namespace Covid_Case_Management_System
             aGridView.EditIndex = -1;
             BindData(aGridView);
 
-        }
-
+        }    
+       
+        //deletes the row of data inside the database via the row selected by the user 
         public void RowDeleteData(GridView aGridView, GridViewDeleteEventArgs e) 
         {
             int Id = Convert.ToInt32(aGridView.DataKeys[e.RowIndex].Values[0]);

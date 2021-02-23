@@ -38,7 +38,7 @@
             <br />
             <asp:Label ID="agelbl" runat="server" Text="Age:"></asp:Label>
             <br />
-            <asp:TextBox ID="ageBox" runat="server" required="true" TextMode="Number"  maxlength="3" ></asp:TextBox>
+            <asp:TextBox ID="ageBox" runat="server" required="true"  onkeypress="return !(event.charCode > 31 &&  (event.charCode < 48 || event.charCode > 57))"  maxlength="3" ></asp:TextBox>
             <br />
             <br />
             <asp:Label ID="addresslbl" runat="server" Text="Address:"></asp:Label>
@@ -114,7 +114,7 @@
                    </asp:TemplateField>
                    <asp:TemplateField HeaderText="PhoneNumber" SortExpression="PhoneNumber">
                        <EditItemTemplate>
-                           <asp:TextBox ID="txtPhoneNumber" runat="server" Text='<%# Eval("PhoneNumber") %>'></asp:TextBox>
+                           <asp:TextBox ID="txtPhoneNumber" runat="server"  onkeypress="return !(event.charCode > 31 &&  (event.charCode < 48 || event.charCode > 57))" Text='<%# Eval("PhoneNumber") %>'></asp:TextBox>
                        </EditItemTemplate>
                        <ItemTemplate>
                            <asp:Label ID="lblPhoneNumber" runat="server" Text='<%# Eval("PhoneNumber") %>'></asp:Label>
@@ -130,7 +130,7 @@
                    </asp:TemplateField>
                    <asp:TemplateField HeaderText="Age" SortExpression="Age">
                        <EditItemTemplate>
-                           <asp:TextBox ID="txtAge" runat="server" Text='<%# Eval("Age") %>'></asp:TextBox>
+                           <asp:TextBox ID="txtAge" runat="server"  onkeypress="return !(event.charCode > 31 &&  (event.charCode < 48 || event.charCode > 57))"   Text='<%# Eval("Age") %>'></asp:TextBox>
                        </EditItemTemplate>
                        <ItemTemplate>
                            <asp:Label ID="lblAge" runat="server" Text='<%# Eval("Age") %>'></asp:Label>
