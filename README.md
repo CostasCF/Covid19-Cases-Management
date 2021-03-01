@@ -10,5 +10,5 @@ Picture 1. A form to submit a new covid case into the database.
 ![image](https://user-images.githubusercontent.com/52785685/109537634-c78e3b80-7ac7-11eb-9cd8-3df249123744.png) <br>
 Picture 2. View,Search,Edit & Delete a covid case from the database.
 
-![image](https://user-images.githubusercontent.com/52785685/109537765-f4dae980-7ac7-11eb-9684-2c329076c209.png)
+![image](https://user-images.githubusercontent.com/52785685/109537765-f4dae980-7ac7-11eb-9684-2c329076c209.png) <br>
 Picture 3. Some statistics exported based on the data inserted.
